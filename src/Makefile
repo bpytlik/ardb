@@ -215,15 +215,22 @@ $(SNAPPY_LIBA):
 	tar zxf ${SNAPPY_FILE} && \
 	cd ${SNAPPY_PATH} && \
 	./configure ${XC_BUILD} ${XC_HOST} ${XC_TGT} > configure.out && \
-	$(MAKE) libsnappy.la
+	$(MAKE) libsnappy.la && \
+	echo "<<<<< Done building SNAPPY"
 
-lmdb:
-	@if test -f ${LMDB_LIBA}; then\
-      :; \
-    else \
-      cd ${LIB_PATH} && tar zxf ${LMDB_FILE} && cd ${LMDB_PATH} &&\
-      $(MAKE);\
-    fi
+.PHONY: lmdb
+lmdb: $(LMDB_LIBA)
+$(LMDB_LIBA): $(LMDB_PATH)
+	echo ">>>>> Building LMDB" && \
+	cd ${LMDB_PATH} && \
+	$(MAKE) && \
+	echo "<<<<< Done building LMDB"
+
+$(LMDB_PATH):
+	echo ">>>>> Unpacking LMDB" && \
+	cd ${LIB_PATH} && \
+	tar zxf ${LMDB_FILE} && \
+	echo "<<<<< Done unpacking LMDB"
 
 .PHONY: leveldb
 leveldb: $(LEVELDB_LIBA)
@@ -233,19 +240,28 @@ $(LEVELDB_LIBA): $(SNAPPY_LIBA) $(LEVELDB_PATH)
 	CXXFLAGS="-I${SNAPPY_PATH} -fno-access-control" \
 		CFLAGS="-I${SNAPPY_PATH}" \
 		LDFLAGS="${SNAPPY_PATH}/.libs" \
-		$(MAKE) libleveldb.a
+		$(MAKE) libleveldb.a && \
+	echo "<<<<< Done building LEVELDB"
 
 $(LEVELDB_PATH):
+	echo ">>>>> Unpacking LEVELDB" && \
 	cd ${LIB_PATH} && \
-	tar zxf ${LEVELDB_FILE}
+	tar zxf ${LEVELDB_FILE} && \
+	echo "<<<<< Done unpacking LEVELDB"
 
-rocksdb:snappy
-	@if test -f ${ROCKSDB_LIBA}; then\
-      :; \
-    else \
-      cd ${LIB_PATH} && tar zxf ${ROCKSDB_FILE} && cd ${ROCKSDB_PATH} && \
-      CXXFLAGS="-I${SNAPPY_PATH}" CFLAGS="-I${SNAPPY_PATH}" LDFLAGS="${SNAPPY_PATH}/.libs" $(MAKE) librocksdb.a;\
-    fi
+.PHONY: rocksdb
+rocksdb: $(ROCKSDB_LIBA)
+$(ROCKSDB_LIBA): $(SNAPPY_LIBA) $(ROCKSDB_PATH)
+	echo ">>>>> Building ROCKSDB" && \
+	cd ${ROCKSDB_PATH} && \
+	CXXFLAGS="-I${SNAPPY_PATH}" CFLAGS="-I${SNAPPY_PATH}" LDFLAGS="${SNAPPY_PATH}/.libs" $(MAKE) librocksdb.a && \
+	echo "<<<<< Done building ROCKSDB"
+
+$(ROCKSDB_PATH):
+	echo ">>>>> Unpacking LEVELDB" && \
+	cd ${LIB_PATH} && \
+	tar zxf ${ROCKSDB_FILE} && \
+	echo "<<<<< Done unpacking LEVELDB"
 
 .PHONY: lua
 lua: $(LUA_LIBA)
