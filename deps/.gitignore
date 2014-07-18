@@ -1,0 +1,4 @@
+deps/lua/src/lua
+deps/lua/src/luac
+deps/reocksdb-*
+deps/zookeeper-*
