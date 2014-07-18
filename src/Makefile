@@ -191,9 +191,6 @@ server: ${STORAGE_ENGINE_OBJ} lib $(CORE_OBJECTS) ${SERVEROBJ}
 test: ${STORAGE_ENGINE_OBJ} lib ${TESTOBJ} $(CORE_OBJECTS)
 	${CXX} -o ardb-test ${STORAGE_ENGINE_OBJ} ${TESTOBJ} $(CORE_OBJECTS) $(LIBS) 
 
-test:
-	@true
-
 .PHONY: jemalloc
 jemalloc: $(JEMALLOC_LIBA)
 $(JEMALLOC_LIBA):
