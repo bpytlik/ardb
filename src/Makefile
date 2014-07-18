@@ -292,6 +292,11 @@ clean_launch_obj:
 clean_test:
 	rm -f ${TESTOBJ};rm -f ardb-test
 
+clean_deps:
+	rm -rf $(LMDB_PATH) $(JEMALLOC_PATH) $(SNAPPY_PATH) $(LEVELDB_PATH) \
+		$(ROCKSDB_PATH) $(ZOOKEEPER_PATH)
+	$(MAKE) -C $(LUA_PATH) clean
+
 noopt:
 	$(MAKE) OPT="-O0"
 
