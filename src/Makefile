@@ -313,3 +313,5 @@ clean:
 	      $(SERVEROBJ) $(DIST_LIBA) $(DIST_LIB)   \
 	      $(LEVELDB_ENGINE) $(KCDB_ENGINE) $(LMDB_ENGINE) $(TESTOBJ)\
 	      ardb-test  ardb-server
+
+clobber: clean_deps clean
