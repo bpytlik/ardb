@@ -263,9 +263,11 @@ $(ROCKSDB_PATH):
 .PHONY: lua
 lua: $(LUA_LIBA)
 $(LUA_LIBA):
+	echo ">>>>> Building LUA" && \
 	cd ${LIB_PATH} && \
 	cd ${LUA_PATH}/src && \
-	$(MAKE) all CFLAGS="$(LUA_CFLAGS)" MYLDFLAGS="$(LUA_LDFLAGS)"
+	$(MAKE) all CFLAGS="$(LUA_CFLAGS)" MYLDFLAGS="$(LUA_LDFLAGS)" && \
+	echo ">>>>> Done building LUA" && \
 
 .PHONY: zookeeper
 zookeeper: $(ZOOKEEPER_LIBA)
@@ -284,7 +286,7 @@ $(ZOOKEEPER_PATH):
 	cd ${ZOOKEEPER_PATH} && \
 	patch < ../../zookeeper.configure.ac.patch && \
 	autoconf configure.ac > configure 2> autoconf.out && \
-	echo "<<<<<< Done unpacking zookeeper"
+	echo "<<<<<< Done unpacking ZOOKEEPER"
 
 clean_launch_obj:
 	rm -f main.o
