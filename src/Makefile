@@ -235,7 +235,7 @@ $(JEMALLOC_LIBA):
 	cd ${JEMALLOC_PATH} && \
 	patch < ../../jemalloc.patch && \
 	autoconf configure.ac > configure 2> autoconf.out && \
-	./configure ${XC_BUILD} ${XC_HOST} ${XC_TGT} > configure.out && \
+	./configure --enable-prof ${XC_BUILD} ${XC_HOST} ${XC_TGT} > configure.out && \
 	$(MAKE) build_lib_static && \
 	echo "<<<<< Done building JEMALLOC"
 
