@@ -44,9 +44,9 @@ LMDB_PATH=${LIB_PATH}/mdb-mdb/libraries/liblmdb
 LMDB_FILE=${LIB_PATH}/LMDB_0.9.13.tar.gz
 LMDB_LIBA=${LMDB_PATH}/liblmdb.a
 
-JEMALLOC_VER=jemalloc-3.6.0
+JEMALLOC_VER=jemalloc-8d0e04d42f4750970ac3052a6c76379b60aba5dc
 JEMALLOC_PATH=${LIB_PATH}/${JEMALLOC_VER}
-JEMALLOC_FILE=${JEMALLOC_PATH}.tar.bz2
+JEMALLOC_FILE=${JEMALLOC_PATH}.tar.gz
 JEMALLOC_LIBA=${JEMALLOC_PATH}/lib/libjemalloc.a
 
 SNAPPY_VER=snappy-1.1.2
@@ -231,11 +231,10 @@ jemalloc: $(JEMALLOC_LIBA)
 $(JEMALLOC_LIBA):
 	echo ">>>>> Building JEMALLOC" && \
 	cd ${LIB_PATH} && \
-	tar jxf ${JEMALLOC_FILE} && \
+	tar zxf ${JEMALLOC_FILE} && \
 	cd ${JEMALLOC_PATH} && \
-	patch < ../../jemalloc.patch && \
 	autoconf configure.ac > configure 2> autoconf.out && \
-	./configure --enable-prof ${XC_BUILD} ${XC_HOST} ${XC_TGT} > configure.out && \
+	sh configure --enable-prof ${XC_BUILD} ${XC_HOST} ${XC_TGT} > configure.out && \
 	$(MAKE) build_lib_static && \
 	echo "<<<<< Done building JEMALLOC"
 
@@ -295,7 +294,7 @@ $(ROCKSDB_PATH):
 	cd ${LIB_PATH} && \
 	tar zxf ${ROCKSDB_FILE} && \
 	echo "<<<<< Done unpacking LEVELDB"
-	
+
 .PHONY: wiredtiger
 wiredtiger: $(WIREDTIGER_LIBA)
 $(WIREDTIGER_LIBA): $(SNAPPY_LIBA) $(WIREDTIGER_PATH)
