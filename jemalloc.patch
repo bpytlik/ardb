@@ -10,3 +10,18 @@
  
  if test "x$je_cv_static_page_shift" != "xundefined"; then
     AC_DEFINE_UNQUOTED([STATIC_PAGE_SHIFT], [$je_cv_static_page_shift])
+--- src/prof.c	2014-03-31 09:37:49.000000000 -0700
++++ src/prof.c	2015-02-13 14:34:30.065975965 -0800
+@@ -1346,12 +1346,6 @@
+ 		if (malloc_mutex_init(&prof_dump_mtx))
+ 			return (true);
+ 
+-		if (atexit(prof_fdump) != 0) {
+-			malloc_write("<jemalloc>: Error in atexit()\n");
+-			if (opt_abort)
+-				abort();
+-		}
+-
+ 		ctx_locks = (malloc_mutex_t *)base_alloc(PROF_NCTX_LOCKS *
+ 		    sizeof(malloc_mutex_t));
+ 		if (ctx_locks == NULL)
