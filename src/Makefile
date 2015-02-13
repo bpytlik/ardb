@@ -233,7 +233,7 @@ $(JEMALLOC_LIBA):
 	cd ${LIB_PATH} && \
 	tar jxf ${JEMALLOC_FILE} && \
 	cd ${JEMALLOC_PATH} && \
-	patch < ../../jemalloc.patch && \
+	patch -p0 < ../../jemalloc.patch && \
 	autoconf configure.ac > configure 2> autoconf.out && \
 	./configure --enable-prof ${XC_BUILD} ${XC_HOST} ${XC_TGT} > configure.out && \
 	$(MAKE) build_lib_static && \
@@ -295,7 +295,7 @@ $(ROCKSDB_PATH):
 	cd ${LIB_PATH} && \
 	tar zxf ${ROCKSDB_FILE} && \
 	echo "<<<<< Done unpacking LEVELDB"
-	
+
 .PHONY: wiredtiger
 wiredtiger: $(WIREDTIGER_LIBA)
 $(WIREDTIGER_LIBA): $(SNAPPY_LIBA) $(WIREDTIGER_PATH)
